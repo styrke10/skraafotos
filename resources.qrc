@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/skraafoto" >
+        <file>skraafoto.png</file>
+    </qresource>
+</RCC>
