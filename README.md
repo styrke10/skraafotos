@@ -1,6 +1,6 @@
 # Skråfotos
 
-QGIS 3/4 plugin til opslag på Dataforsyningens Skråfotos.
+QGIS 3.x og 4.x plugin til opslag på Dataforsyningens Skråfotos.
 
 ## Formål
 
