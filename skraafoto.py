@@ -22,11 +22,9 @@
  ***************************************************************************/
 """
 
-from qgis.PyQt.QtCore import Qt, QSettings, QTranslator, QCoreApplication
-from qgis.PyQt.QtGui import QIcon, QPixmap, QMovie
-from qgis.PyQt.QtWidgets import QAction, QApplication, QMessageBox, QLabel
-from PyQt5 import Qt, QtCore, QtWidgets, QtGui, QtWebKit, QtWebKitWidgets, QtXml, QtNetwork, uic
-from PyQt5.QtGui import QGuiApplication
+from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction, QApplication
 import subprocess
 from qgis.core import *
 from qgis.gui import *
@@ -41,8 +39,8 @@ import os.path
 import math
 import webbrowser  
 
-rb=QgsRubberBand(iface.mapCanvas(),QgsWkbTypes.PointGeometry )
-rl=QgsRubberBand(iface.mapCanvas(),QgsWkbTypes.LineGeometry )
+rb=QgsRubberBand(iface.mapCanvas(),QgsWkbTypes.GeometryType.PointGeometry )
+rl=QgsRubberBand(iface.mapCanvas(),QgsWkbTypes.GeometryType.LineGeometry )
 pressed=False
 line=False
 point0=iface.mapCanvas().getCoordinateTransform().toMapCoordinates(0, 0)
@@ -210,24 +208,27 @@ class skraafotos:
         # Read whether the explanation dialog should be shown
         s = QgsSettings()
         self.dlg.chkDontShow.setChecked(True if s.value("skraafoto/DontShow") == True else False)
-        QgsMessageLog.logMessage('Reading settings: {}'.format(self.dlg.chkDontShow.isChecked()), tag="skraafoto", level=Qgis.Success )
+        QgsMessageLog.logMessage('Reading settings: {}'.format(self.dlg.chkDontShow.isChecked()), tag="skraafoto", level=Qgis.MessageLevel.Success )
 
         if not self.dlg.chkDontShow.isChecked():
             # show the dialog
             self.dlg.show()
             # Run the dialog event loop
-            result = self.dlg.exec_()
+            result = self.dlg.exec()
         else:
             result = True
             
         # See if OK was pressed
         if result:
-            QgsMessageLog.logMessage('Storing settings: {}'.format(self.dlg.chkDontShow.isChecked()), tag="skraafoto", level=Qgis.Success )
+            QgsMessageLog.logMessage('Storing settings: {}'.format(self.dlg.chkDontShow.isChecked()), tag="skraafoto", level=Qgis.MessageLevel.Success )
             s.setValue("skraafoto/DontShow", self.dlg.chkDontShow.isChecked())
 
             tool = PointTool(self.iface.mapCanvas())
             self.iface.mapCanvas().setMapTool(tool)
-            QApplication.setOverrideCursor(QtCore.Qt.CrossCursor)
+            # Changed to obtain Qt5/Qt6 compatibility
+            QApplication.setOverrideCursor(
+                getattr(QtCore.Qt, "CursorShape", QtCore.Qt).CrossCursor
+            )
 
 
 class PointTool(QgsMapTool):  
@@ -242,8 +243,10 @@ class PointTool(QgsMapTool):
         point1 = None
         if not pressed: 
             pressed=True
-            rb=QgsRubberBand(iface.mapCanvas(),QgsWkbTypes.PointGeometry )
-            rb.setColor(QtCore.Qt.red)
+            rb=QgsRubberBand(iface.mapCanvas(),QgsWkbTypes.GeometryType.PointGeometry )
+            rb.setColor(
+                getattr(QtCore.Qt, "GlobalColor", QtCore.Qt).red
+            )
             point0 = self.canvas.getCoordinateTransform().toMapCoordinates(x, y)
             rb.addPoint(point0) 
         #QgsMessageLog.logMessage('canvasPressEvent, pressed: {}, point0: {}'.format(pressed,point0.asWkt()), tag='skraafoto', level=Qgis.Success )
@@ -254,7 +257,9 @@ class PointTool(QgsMapTool):
         global pressed, point0, point1, line, rl
         if pressed:
             if not line:
-                rl.setColor ( QtCore.Qt.red )
+                rl.setColor (
+                    getattr(QtCore.Qt, "GlobalColor", QtCore.Qt).red
+                )
                 point1 = self.canvas.getCoordinateTransform().toMapCoordinates(x, y)
                 rl.addPoint(point0)  
                 rl.addPoint(point1)
@@ -262,7 +267,7 @@ class PointTool(QgsMapTool):
             else:
                 if line: 
                     point1 = self.canvas.getCoordinateTransform().toMapCoordinates(x, y)
-                    rl.reset(QgsWkbTypes.LineGeometry)
+                    rl.reset(QgsWkbTypes.GeometryType.LineGeometry)
                     rl.addPoint(point0)  
                     rl.addPoint(point1)
             #QgsMessageLog.logMessage('canvasMoveEvent: line: {}, point0: {}, point1: {}'.format(pressed,line,point0.asWkt(),point1.asWkt()), tag='skraafoto', level=Qgis.Success )
@@ -291,7 +296,7 @@ class PointTool(QgsMapTool):
         self.canvas.unsetMapTool(self)
         QApplication.restoreOverrideCursor()
 
-        QgsMessageLog.logMessage('showing photo, angle: {}, quadrant: {}, orientation: {}, point0: {}, point1: {}'.format(angle,quadrant,orientation,point0.asWkt(),point1.asWkt()), tag='skraafoto', level=Qgis.Success )
+        #QgsMessageLog.logMessage('showing photo, angle: {}, quadrant: {}, orientation: {}, point0: {}, point1: {}'.format(angle,quadrant,orientation,point0.asWkt(),point1.asWkt()), tag='skraafoto', level=Qgis.MessageLevel.Success )
         
     def activate(self):
         pass

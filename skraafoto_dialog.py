@@ -28,8 +28,7 @@ from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
 from qgis.core import *
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QMovie
+from qgis.PyQt.QtGui import QMovie
 import sys
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
@@ -54,6 +53,6 @@ class skraafotosDialog(QtWidgets.QDialog, FORM_CLASS):
             self.giflabel.setMovie(self.movie)
             self.movie.start()
         else:
-            QgsMessageLog.logMessage('demo.gif not valid!', tag='skraafoto', level=Qgis.Warning )
+            QgsMessageLog.logMessage('demo.gif not valid!', tag='skraafoto', level=Qgis.MessageLevel.Warning )
 
 

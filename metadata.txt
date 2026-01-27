@@ -6,26 +6,29 @@
 name=Skråfotos
 qgisMinimumVersion=3.0
 description=Dette plugin laver opslag på Dataforsyningens Skråfotos
-version=0.1
+version=2.0.0
 author=Morten Storm, Styrke 10 ApS
 email=morten@styrke10.dk
 
 about=Dette plugin laver opslag på Dataforsyningens Skråfotos udfra det punkt og den retning, som brugeren udpeger i kortkanvasset.
 
-tracker=http://bugs
-repository=http://repo
+tracker=https://github.com/styrke10/skraafotos/issues
+repository=https://github.com/styrke10/skraafotos
 # End of mandatory metadata
 
 # Recommended items:
 
 hasProcessingProvider=no
+supportsQt6=True
+
 # Uncomment the following line and add your changelog:
-# changelog=
+changelog=V 2.0: Upgraded to support QGIS 4.x / Qt 6
+V 1.0: Fravalg af demo-dialog huskes nu mellem sessioner.
 
 # Tags are comma separated with spaces allowed
-tags=python
+tags=python, dataforsyningen, danmark
 
-homepage=http://homepage
+homepage=https://github.com/styrke10/skraafotos
 category=Web
 icon=icon.png
 # experimental flag
