@@ -22,13 +22,24 @@
  ***************************************************************************/
 """
 
+from qgis.PyQt import QtCore
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QApplication
-import subprocess
-from qgis.core import *
-from qgis.gui import *
-from qgis.utils import *
+from qgis.core import (
+    QgsProject,
+    QgsCoordinateReferenceSystem,
+    QgsCoordinateTransform,
+    QgsSettings,
+    QgsMessageLog,
+    QgsWkbTypes,
+    Qgis
+)
+from qgis.gui import (
+    QgsRubberBand,
+    QgsMapTool
+)
+from qgis.utils import iface
 
 # Initialize Qt resources from file resources.py
 from .resources import *
@@ -37,10 +48,10 @@ from .skraafoto_dialog import skraafotosDialog
 import os.path
 
 import math
-import webbrowser  
+import webbrowser
 
-rb=QgsRubberBand(iface.mapCanvas(),QgsWkbTypes.GeometryType.PointGeometry )
-rl=QgsRubberBand(iface.mapCanvas(),QgsWkbTypes.GeometryType.LineGeometry )
+rb = QgsRubberBand(iface.mapCanvas(),QgsWkbTypes.GeometryType.PointGeometry )
+rl = QgsRubberBand(iface.mapCanvas(),QgsWkbTypes.GeometryType.LineGeometry )
 pressed=False
 line=False
 point0=iface.mapCanvas().getCoordinateTransform().toMapCoordinates(0, 0)
@@ -207,8 +218,8 @@ class skraafotos:
 
         # Read whether the explanation dialog should be shown
         s = QgsSettings()
-        self.dlg.chkDontShow.setChecked(True if s.value("skraafoto/DontShow") == True else False)
-        QgsMessageLog.logMessage('Reading settings: {}'.format(self.dlg.chkDontShow.isChecked()), tag="skraafoto", level=Qgis.MessageLevel.Success )
+        self.dlg.chkDontShow.setChecked(True if s.value("skraafoto/DontShow") else False)
+        QgsMessageLog.logMessage('Reading settings: {}/{}'.format(s.value("skraafoto/DontShow"),self.dlg.chkDontShow.isChecked()), tag="skraafoto", level=Qgis.MessageLevel.Success )
 
         if not self.dlg.chkDontShow.isChecked():
             # show the dialog
@@ -284,7 +295,7 @@ class PointTool(QgsMapTool):
         pressed=False
         line=False
         actual_crs = self.canvas.mapSettings().destinationCrs()
-        destination_crs = QgsCoordinateReferenceSystem(25832)  # ETRS 89 UTM zone 32N
+        destination_crs = QgsCoordinateReferenceSystem("EPSG:25832")  # ETRS 89 UTM zone 32N
         xform = QgsCoordinateTransform(actual_crs, destination_crs, QgsProject.instance())
         pt1 = xform.transform(point1)
 

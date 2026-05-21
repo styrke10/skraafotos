@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>271</width>
-    <height>379</height>
+    <width>282</width>
+    <height>378</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,15 +18,15 @@
     <rect>
      <x>10</x>
      <y>343</y>
-     <width>251</width>
+     <width>261</width>
      <height>32</height>
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Horizontal</enum>
+    <enum>Qt::Orientation::Horizontal</enum>
    </property>
    <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+    <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
    </property>
   </widget>
   <widget class="QLabel" name="giflabel">
@@ -50,7 +50,7 @@
     <rect>
      <x>10</x>
      <y>350</y>
-     <width>81</width>
+     <width>111</width>
      <height>17</height>
     </rect>
    </property>
@@ -66,15 +66,15 @@
     <rect>
      <x>10</x>
      <y>220</y>
-     <width>251</width>
-     <height>101</height>
+     <width>261</width>
+     <height>121</height>
     </rect>
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Klik i kortet og træk en linje i den retning, som du ønsker, at det primære skråfoto skal vises fra. Slip museknappen i det punkt, som du ønsker fotoet centreret på. &lt;/p&gt;&lt;p&gt;Retningen korrigeres til nærmeste, primære verdenshjørne (nord, syd, øst eller vest).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
    </property>
    <property name="wordWrap">
     <bool>true</bool>
