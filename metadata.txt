@@ -7,7 +7,7 @@ name=Skråfotos
 qgisMinimumVersion=3.0
 qgisMaximumVersion=4.99
 description=Dette plugin laver opslag på Dataforsyningens Skråfotos
-version=2.0.1
+version=2.0.2
 author=Morten Storm, Styrke 10 ApS
 email=morten@styrke10.dk
 
@@ -25,7 +25,7 @@ hasProcessingProvider=no
 changelog=V 2.0.2: Security issues fixed
 	V 2.0.1: QGIS max version bumped to 4.99
 	V 2.0.0: Upgraded to support QGIS 4.x / Qt 6
-	V 1.0.0: Fravalg af demo-dialog huskes nu mellem sessioner.
+	V 1.0.0: Skipping demo-dialog remembered between sessions.
 
 # Tags are comma separated with spaces allowed
 tags=python, dataforsyningen, danmark

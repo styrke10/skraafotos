@@ -29,7 +29,6 @@ from qgis.PyQt import QtWidgets
 from qgis.core import *
 
 from qgis.PyQt.QtGui import QMovie
-import sys
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
